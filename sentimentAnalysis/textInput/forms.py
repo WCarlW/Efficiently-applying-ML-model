@@ -1,5 +1,3 @@
-# dwitter/forms.py
-
 from django import forms
 from .models import Dweet
 
@@ -17,4 +15,4 @@ class DweetForm(forms.ModelForm):
 
     class Meta:
         model = Dweet
-        exclude = ("user", )
+        fields = ["body"]

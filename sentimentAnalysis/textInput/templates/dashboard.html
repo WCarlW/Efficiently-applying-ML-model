@@ -1,5 +1,3 @@
-<!-- dwitter/templates/dwitter/dashboard.html -->
-
 {% extends 'base.html' %}
 
 {% block content %}
@@ -11,6 +9,12 @@
             <span class="is-small has-text-grey-light">
                 {{ dweet.created_at }} by {{ dweet.user.username }}
             </span>
+            <div class="is-small has-text-info">
+                Sentiment Analysis: 
+                <span class="is-small has-text-danger">
+                    {{dweet.sentiment}}
+                </span>
+            </div>
         </div>
     {% endfor %}
 </div>
@@ -42,7 +46,7 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button class="button is-success is-fullwidth is-medium mt-5"
-                        type="submit">Dweet
+                        type="submit">Submit
                 </button>
             </form>
         </div>

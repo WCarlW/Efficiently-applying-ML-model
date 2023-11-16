@@ -1,5 +1,3 @@
-# dwitter/views.py
-
 from django.shortcuts import render, redirect
 from .forms import DweetForm
 from .models import Dweet, Profile
