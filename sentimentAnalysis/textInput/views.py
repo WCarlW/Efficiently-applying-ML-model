@@ -1,13 +1,27 @@
 from django.shortcuts import render, redirect
 from .forms import DweetForm
-from .models import Dweet, Profile
+from .models import Dweet, Profile, Sentiment
+from silk.profiling.profiler import silk_profile
+from django.utils import timezone
 
+def perform_sentiment_analysis(body):
+    sentiment = 'Not Analyzed'
+    return sentiment
+
+@silk_profile(name='Sentiment Analysis')
 def dashboard(request):
     form = DweetForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             dweet = form.save(commit=False)
             dweet.user = request.user
+
+            sentiment = perform_sentiment_analysis(dweet.body)
+            sentiment_obj, created = Sentiment.objects.get_or_create(sentiment=sentiment)
+            sentiment_obj.analyzed_at = timezone.now()
+            sentiment_obj.save()
+
+            dweet.sentiment = sentiment_obj
             dweet.save()
             return redirect("textInput:dashboard")
 
