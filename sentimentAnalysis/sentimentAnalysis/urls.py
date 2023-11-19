@@ -20,4 +20,5 @@ from django.urls import include, path
 urlpatterns = [
     path("", include("textInput.urls")),
     path("admin/", admin.site.urls),
+    path('silk/', include('silk.urls', namespace='silk')),
 ]
