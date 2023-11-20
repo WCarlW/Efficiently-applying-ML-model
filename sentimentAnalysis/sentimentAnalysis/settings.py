@@ -28,6 +28,8 @@ DEBUG = True
 '''*********************'''
 # Django Silk: https://pypi.org/project/django-silk/
 SILKY_PYTHON_PROFILER = True
+
+# graph visualization
 # SILKY_PYTHON_PROFILER_BINARY = True
 
 # To see what effect Silk is having on the request/response time
