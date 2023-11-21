@@ -3,12 +3,15 @@ from .forms import DweetForm
 from .models import Dweet, Profile, Sentiment
 from silk.profiling.profiler import silk_profile
 from django.utils import timezone
-
-def perform_sentiment_analysis(body):
-    sentiment = 'Not Analyzed'
-    return sentiment
+from analysis.trained_model.use_model import analyze
 
 @silk_profile(name='Sentiment Analysis')
+def perform_sentiment_analysis(body):
+    if body:
+        return(analyze(body)) # use local model
+    return 'Not Analyzed'
+
+@silk_profile(name='Dashboard')
 def dashboard(request):
     form = DweetForm(request.POST or None)
     if request.method == "POST":
