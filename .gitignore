@@ -73,8 +73,6 @@ cover/
 *.mo
 
 # Django stuff:
-# Silk binary file
-*.prof
 
 # Flask stuff:
 instance/
@@ -176,5 +174,6 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
 
-# Model files
+# Trained Models
 cardiffnlp/
+RoBERTa_model

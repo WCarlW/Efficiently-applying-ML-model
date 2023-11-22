@@ -25,23 +25,6 @@ SECRET_KEY = 'django-insecure-+4llrl9@)l6n=0hz$91+wwg3#oohsfju-e^ar(_1(ea*v*^va0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-'''*********************'''
-# Django Silk: https://pypi.org/project/django-silk/
-SILKY_PYTHON_PROFILER = True
-
-# graph visualization
-# SILKY_PYTHON_PROFILER_BINARY = True
-
-# To see what effect Silk is having on the request/response time
-SILKY_META = True
-
-# For the saved generated binary .prof files 
-# SILKY_STORAGE_CLASS = 'silk.storage.ProfilerResultStorage'
-# SILKY_PYTHON_PROFILER_RESULT_PATH = '/path/to/profiles/'
-
-# To retrieve which endpoint generates a specific profile file
-# SILKY_PYTHON_PROFILER_EXTENDED_FILE_NAME = True
-'''*********************'''
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -55,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "debug_toolbar",
     'textInput',
-    'silk',
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,8 +51,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'silk.middleware.SilkyMiddleware', # Place it after any middleware returns from process_request
+    
 ]
+
+''''''
+# Django Debug Toolbar settings
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+}
+
+''''''
 
 ROOT_URLCONF = 'sentimentAnalysis.urls'
 

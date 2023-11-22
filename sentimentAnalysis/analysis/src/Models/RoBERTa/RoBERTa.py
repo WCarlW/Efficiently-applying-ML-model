@@ -79,7 +79,7 @@ class ROBERTA:
         if saving:
             print('Model saving')
             # roberta_model.save(path + '/RoBERTa/RoBERTa.h5')
-            tf.saved_model.save(roberta_model, path + '/RoBERTa')
+            tf.saved_model.save(roberta_model, path + '/RoBERTa_model')
             print('Model saved')
 
         return roberta_model, history_roberta, [test_input_ids, test_attention_masks]
