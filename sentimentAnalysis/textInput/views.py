@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect
 from .forms import DweetForm
 from .models import Dweet, Profile, Sentiment
 from django.utils import timezone
-from analysis.trained_model.use_local_model import analyze
+
+'''Choose which model to use'''
+# from analysis.trained_model.use_local_model import analyze
+
+from analysis.trained_model.use_online_model import analyze
+'''***************************'''
 
 def perform_sentiment_analysis(body):
     if body:
-        return(analyze(body)) # use local model
+        return(analyze(body))
     return 'Not Analyzed'
 
 def dashboard(request):
