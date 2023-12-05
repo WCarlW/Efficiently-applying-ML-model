@@ -1,11 +1,15 @@
 '''
-PyTorch Model has higher accuracy than TensorFlow Model
+From use_local_model.py
 '''
-from transformers import AutoModelForSequenceClassification
-from transformers import TFAutoModelForSequenceClassification
-from transformers import AutoTokenizer, AutoConfig
 import numpy as np
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoConfig
 from scipy.special import softmax
+import os
+
+# use offline mode avoiding downloading models from huggingface
+def setEnvir():
+    os.environ["TRANSFORMERS_OFFLINE"] = '1'
+
 
 # Preprocess text (username and link placeholders)
 def preprocess(text):
@@ -17,31 +21,21 @@ def preprocess(text):
     return " ".join(new_text)
 
 def analyze(text):
+    setEnvir()
     if not text:
         return 'Not Input Detected.'
-    MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+
+    MODEL = "/app/sentimentAnalysis/analysis/trained_model/roberta_local"
+
     tokenizer = AutoTokenizer.from_pretrained(MODEL)
-    config = AutoConfig.from_pretrained(MODEL)
-    # PT
     model = AutoModelForSequenceClassification.from_pretrained(MODEL)
-    tokenizer.save_pretrained("./roberta_local")
-    model.save_pretrained("./roberta_local")
-    # text = "Covid cases are increasing fast!"
+    config = AutoConfig.from_pretrained(MODEL)
+    
     text = preprocess(text)
     encoded_input = tokenizer(text, return_tensors='pt')
     output = model(**encoded_input)
     scores = output[0][0].detach().numpy()
     scores = softmax(scores)
-    # # TF
-    # model = TFAutoModelForSequenceClassification.from_pretrained(MODEL)
-    # model.save_pretrained(MODEL)
-    # tokenizer.save_pretrained(MODEL)
-    # # text = "Covid cases are increasing fast!"
-    # text = preprocess(text)
-    # encoded_input = tokenizer(text, return_tensors='tf')
-    # output = model(encoded_input)
-    # scores = output[0][0].numpy()
-    # scores = softmax(scores)
 
     # Print labels and scores
     ranking = np.argsort(scores)
@@ -56,6 +50,3 @@ def analyze(text):
     # print(sorted_results)
     return sorted_results[0][1]
 
-if __name__ == "__main__":
-    text = "Today is Tuesday."
-    print(analyze(text))

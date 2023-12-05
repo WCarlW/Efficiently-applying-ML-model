@@ -175,6 +175,13 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/django
 
 # Trained Models
-roberta_local/
-RoBERTa_model
+# cardiffnlp/
+# RoBERTa_model
+predictions.txt
+probabilities.txt
+results.txt
 .DS_Store
+
+# apps
+sentimentAnalysis/sentimentAnalysis/
+sentimentAnalysis/textInput/
