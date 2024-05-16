@@ -2,16 +2,17 @@ from django.shortcuts import render, redirect
 from .forms import DweetForm
 from .models import Dweet, Profile, Sentiment
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
-'''Choose which model to use'''
-# local model without docker
+'''*****Choose which deployed model to use*****'''
+'''A. locally deployed model'''
 # from analysis.trained_model.use_local_model import analyze
 
-# online deployed model
-from analysis.trained_model.use_online_model import analyze
+'''B. cloud deployed model'''
+# from analysis.trained_model.use_online_model import analyze
 
-# local model inside docker container
+'''C. Docker deployed model (the container is stored locally)'''
 # from django.http import JsonResponse
 # import requests
 # DOCKER_API_URL = "http://127.0.0.1:3000" # container address
@@ -20,10 +21,10 @@ from analysis.trained_model.use_online_model import analyze
 
 def perform_sentiment_analysis(body):
     if body:
-        # local model without docker or online deployed model
-        return(analyze(body))
+        '''A. & B. locally deployd model OR cloud deployed model'''
+        # return(analyze(body))
 
-        # local model inside docker container
+        '''C. Docker deployed model'''
         # data = {"text": body}
         # response = requests.post(f'{DOCKER_API_URL}/analyze_sentiment', json=data)
         # # Check if the request was successful
@@ -36,6 +37,7 @@ def perform_sentiment_analysis(body):
         #     # Handle error
         #     return JsonResponse({'error': 'Failed to analyze sentiment'}, status=500)
 
+    # No model selected or something went wrong
     return 'Not Analyzed'
 
 def dashboard(request):
@@ -53,6 +55,11 @@ def dashboard(request):
             dweet.sentiment = sentiment_obj
             dweet.save()
             return redirect("textInput:dashboard")
+    
+    # Create a mock user if the current user is not authenticated
+    if not request.user.is_authenticated:
+        mock_user = User.objects.get_or_create(username='mockuser')[0]
+        request.user = mock_user
 
     followed_dweets = Dweet.objects.filter(
         user__profile__in=request.user.profile.follows.all()
