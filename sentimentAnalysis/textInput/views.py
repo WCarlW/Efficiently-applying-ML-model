@@ -9,32 +9,32 @@ from django.utils import timezone
 # from analysis.trained_model.use_local_model import analyze
 
 # online deployed model
-# from analysis.trained_model.use_online_model import analyze
+from analysis.trained_model.use_online_model import analyze
 
 # local model inside docker container
-from django.http import JsonResponse
-import requests
-DOCKER_API_URL = "http://127.0.0.1:3000" # container address
+# from django.http import JsonResponse
+# import requests
+# DOCKER_API_URL = "http://127.0.0.1:3000" # container address
 '''***************************'''
 
 
 def perform_sentiment_analysis(body):
     if body:
         # local model without docker or online deployed model
-        # return(analyze(body))
+        return(analyze(body))
 
         # local model inside docker container
-        data = {"text": body}
-        response = requests.post(f'{DOCKER_API_URL}/analyze_sentiment', json=data)
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Attempt to parse JSON, handle JSONDecodeError
-            result = response.json()
-            sentiment = result.get('sentiment', '')
-            return sentiment
-        else:
-            # Handle error
-            return JsonResponse({'error': 'Failed to analyze sentiment'}, status=500)
+        # data = {"text": body}
+        # response = requests.post(f'{DOCKER_API_URL}/analyze_sentiment', json=data)
+        # # Check if the request was successful
+        # if response.status_code == 200:
+        #     # Attempt to parse JSON, handle JSONDecodeError
+        #     result = response.json()
+        #     sentiment = result.get('sentiment', '')
+        #     return sentiment
+        # else:
+        #     # Handle error
+        #     return JsonResponse({'error': 'Failed to analyze sentiment'}, status=500)
 
     return 'Not Analyzed'
 
