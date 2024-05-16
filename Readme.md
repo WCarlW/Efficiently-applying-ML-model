@@ -28,9 +28,10 @@ Because log in function is not implemented, the current user will always be the 
 
 ### Run the app
 
-1. Create a Python virtual environment in the **root directory**
-2. Go to **SentimentAnalysis** directory and run `python manage.py runserver`
-3. The default URL is `http://127.0.0.1:8000/
+1. Create a `Python virtual environment` in the **root directory**
+2. Install all required packages in `requirements.txt`. `pip install -r requirements.txt` if using pip.
+3. Go to **SentimentAnalysis** directory and run `python manage.py runserver`
+4. The default URL is `http://127.0.0.1:8000/
 
 The only way to add more users and publish content with other users' names is in the admin panel. 
 
